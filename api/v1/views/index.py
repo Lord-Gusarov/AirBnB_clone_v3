@@ -2,6 +2,7 @@
 """
 Index for our web flask
 """
+from flask import jsonify
 from api.v1.views import app_views
 
 
@@ -10,7 +11,5 @@ def status():
     """
     Return json status of web flask
     """
-    return """{
-    "status": "OK"
-    }
-    """
+    status = {'status': 'OK'}
+    return jsonify(status)
