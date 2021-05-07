@@ -1,0 +1,23 @@
+#!/usr/bin/python
+"""
+Initializer for Blueprint
+"""
+from flask import Blueprint
+from api.v1.views.index import *
+
+
+app_views = Blueprint("app_views", __name__, url_prefix='/api/v1')
+
+@app_views.route('/', strict_slashes=False)
+def index():
+    """
+    Return index page
+    """
+    return "Index Page!"
+
+@app_vies.route('/status', strict_slashes=False)
+def data():
+    """
+    Returns values from index page
+    """
+    return app_views
