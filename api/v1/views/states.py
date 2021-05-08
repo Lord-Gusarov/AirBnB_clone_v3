@@ -18,7 +18,7 @@ def list_all_states():
         res_dict = None
         try:
             res_dict = request.get_json()
-        except ValueError:
+        except:
             abort(400, description='Not a JSON')
         new_state_name = res_dict.get('name')
         if new_state_name is None:
