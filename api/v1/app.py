@@ -24,7 +24,7 @@ def page_not_found(exception=None):
     """
     Display an jsonify error
     """
-    return jsonify({"error": "Not found"})
+    return jsonify({"error": "Not found"}), 404
 
 if __name__ == '__main__':
     """
