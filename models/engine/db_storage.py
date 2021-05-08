@@ -44,6 +44,7 @@ class DBStorage:
     def get(self, cls, id):
         """Fetches a particular object based on its class and it's id.
         If not found, None is returned"""
+        cls = classes[cls] if cls in classes else cls
         try:
             return self.__session.query(cls).filter_by(id=id).first()
         except NoResultFound:
