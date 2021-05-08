@@ -32,8 +32,8 @@ def list_all_amenities():
 
 
 @app_views.route('/amenities/<amenity_id>',
-                methods=['GET', 'DELETE', 'PUT'],
-                strict_slashes=False)
+                 methods=['GET', 'DELETE', 'PUT'],
+                 strict_slashes=False)
 def list_single_amenity(amenity_id):
     """
     Returns amenity object by id
