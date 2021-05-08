@@ -27,7 +27,7 @@ def status():
     return jsonify(status)
 
 
-@app_views.route('/api/v1/stats', strict_slashes=False)
+@app_views.route('/stats', strict_slashes=False)
 def obj_count():
     """ 
     Retrieves the number of each objects
