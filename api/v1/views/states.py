@@ -15,12 +15,12 @@ def list_all_states():
     """
 
     if request.method == 'POST':
-        res_dict = None
+        new_state_name = None
         try:
             res_dict = request.get_json()
+            new_state_name = res_dict.get('name')
         except:
             abort(400, description='Not a JSON')
-        new_state_name = res_dict.get('name')
         if new_state_name is None:
             abort(400, description='Missing name')
         new_state = State(name=new_state_name)
