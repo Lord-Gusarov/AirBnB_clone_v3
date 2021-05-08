@@ -27,11 +27,11 @@ def list_all_amenities():
         new_amenity.save()
         return jsonify(new_amenity.to_dict()), 201
     amenities = storage.all('Amenity')
-    list_amenity_dict = [s.to_dict() for s in amenities.value()]
+    list_amenity_dict = [s.to_dict() for s in amenities.values()]
     return jsonify(list_amenity_dict)
 
 
-@app_vies.route('/amenities/<amenity_id>',
+@app_views.route('/amenities/<amenity_id>',
                 methods=['GET', 'DELETE', 'PUT'],
                 strict_slashes=False)
 def list_single_amenity(amenity_id):
@@ -41,11 +41,11 @@ def list_single_amenity(amenity_id):
     amenity = storage.get('Amenity', amenity_id)
     if amenity is None:
         abort(404)
-    if request.method = 'DELETE':
+    if request.method == 'DELETE':
         storage.delete(amenity)
         storage.save()
         return jsonify({}), 200
-    elif request.method = 'PUT':
+    elif request.method == 'PUT':
         try:
             res_dict = request.get_json()
             res_dict['id'] = amenity.id
