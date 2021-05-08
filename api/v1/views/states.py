@@ -18,12 +18,12 @@ def list_all_states():
             res_dict = request.get_json()
             new_state_name = res_dict.get('name')
             if new_state_name is None:
-                abort(404, description='Missing name')
+                abort(400, description='Missing name')
             new_state = State(name=new_state_name)
             new_state.save()
             return jsonify(new_state.to_dict()), 201
         except e:
-            abort(404, description='Not a JSON')
+            abort(400, description='Not a JSON')
 
     states = storage.all('State')
     list_states_as_dicts = [s.to_dict() for s in states.values()]
@@ -38,7 +38,6 @@ def get_one_state(state_id):
     """
     state = storage.get('State', state_id)
     if state is None:
-        print('early ABORT')
         abort(404)
     if request.method == 'DELETE':
         storage.delete(state)
@@ -53,5 +52,5 @@ def get_one_state(state_id):
             state.save()
             return jsonify(state.to_dict()), 200
         except:
-            abort(404, description='Not a JSON')
+            abort(400, description='Not a JSON')
     return jsonify(state.to_dict())
