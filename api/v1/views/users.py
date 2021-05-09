@@ -36,7 +36,7 @@ def list_all_users():
     return jsonify(list_user_dict)
 
 
-@app_views.route('/user/<user_id>',
+@app_views.route('/users/<user_id>',
                  methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def list_one_user(user_id):
