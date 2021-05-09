@@ -55,6 +55,7 @@ def list_one_user(user_id):
             res_dict = request.get_json()
             res_dict['id'] = user.id
             res_dict['email'] = user.email
+            res_dict['password'] = user.password
             res_dict['created_at'] = user.create_at
             user.__init__(**res_dict)
             user.save()
