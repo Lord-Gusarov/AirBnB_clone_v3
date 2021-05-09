@@ -33,7 +33,8 @@ def list_all_places(city_id):
         user = storage.get('User', place_userId)
         if user is None:
             abort(404)
-        new_place = Place(name=new_place_name, place_userId=place_userId)
+        new_place = Place(name=new_place_name, user_id=place_userId,
+                          city_id=city_id)
         new_place.save()
         return jsonify(new_place.to_dict()), 201
     list_places_as_dicts = [s.to_dict() for s in city.places]
