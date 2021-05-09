@@ -14,23 +14,19 @@ def list_all_users():
     Return a list of all users
     """
     if request.method == 'POST':
-        new_user_name = None
         new_email = None
         new_pass = None
         try:
             res_dict = request.get_json()
-            new_user_name = res_dict.get('name')
             new_email = res_dict.get('email')
             new_pass = res_dict.get('password')
         except:
             abort(400, description='Not a JSON')
-        if new_user_name is None:
-            abort(400, description='Missing name')
         if new_email is None:
             abort(400, description='Missing email')
         if new_pass is None:
             abort(400, description='Missing password')
-        new_user = User(name=new_user_name)
+        new_user = User(email=new_email, password=new_pass)
         new_user.save()
         return jsonify(new_user.to_dict()), 201
     users = storage.all('User')
