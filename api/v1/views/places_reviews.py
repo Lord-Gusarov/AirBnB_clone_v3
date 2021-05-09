@@ -57,8 +57,9 @@ def acess_one_review(review_id):
     elif request.method == 'PUT':
         try:
             res_dict = request.get_json()
-            for key in ['id', 'user_id', 'place_id', 'created_at']:
-                res_dict.pop(key, None)
+            res_dict.update({'id': review_id, 'created_at': review.created_at})
+            for att in ['user_id', 'place_id']:
+                res_dict.pop(att, None)
             review.__init__(**res_dict)
             review.save()
             return jsonify(review.to_dict()), 200
