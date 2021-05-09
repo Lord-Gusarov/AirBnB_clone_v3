@@ -15,6 +15,8 @@ def list_all_users():
     """
     if request.method == 'POST':
         new_user_name = None
+        new_email = None
+        new_pass = None
         try:
             res_dict = request.get_json()
             new_user_name = res_dict.get('name')
