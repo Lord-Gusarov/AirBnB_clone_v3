@@ -45,7 +45,7 @@ def list_one_user(user_id):
     """
     user = storage.get('User', user_id)
     if user is None:
-        abort(400)
+        abort(404)
     if request.method == 'DELETE':
         storage.delete(user)
         storage.save()
