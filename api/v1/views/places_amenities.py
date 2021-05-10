@@ -36,17 +36,13 @@ def manage_single_amenity(place_id, amenity_id):
     if amenity is None:
         abort(404)
     if request.method == 'POST':
-        new_amenity_text = None
-        res_dict = None
-        try:
-            res_dict = request.get_json()
-            new_amenity_text = res_dict.get('text')
-        except:
-            abort(400, description='Not a JSON')
-        new_amenity = Amenity(text=new_amenity_text, place_id=place_id,
-                              amenity_id=amenity_id)
-        new_amenity.save()
-        return jsonify(new_amenity.to_dict()), 201
+        if storage_t == 'db':
+            place.amenities.append(amenity_id)
+            place.save()
+        else:
+            place.amenity_ids.append(amenity_id)
+            place.save()
+        return jsonify(amenity.to_dict()), 201
 
     if request.method == 'DELETE':
         if storage_t == 'db':
