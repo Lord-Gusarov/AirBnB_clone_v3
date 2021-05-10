@@ -23,7 +23,7 @@ def list_places_amenities(place_id):
 
 
 @app_views.route('places/<place_id>/amenities/<amenity_id>',
-                 methods=['DELETE', 'POST', 'PUT'],
+                 methods=['DELETE', 'POST'],
                  strict_slashes=False)
 def manage_single_amenity(place_id, amenity_id):
     """
@@ -36,12 +36,13 @@ def manage_single_amenity(place_id, amenity_id):
     if amenity is None:
         abort(404)
     if request.method == 'POST':
+        if amenity_id in place.amenities:
+            return jsonify(amenity.to_dict()), 200
         if storage_t == 'db':
             place.amenities.append(amenity_id)
-            place.save()
         else:
             place.amenity_ids.append(amenity_id)
-            place.save()
+        place.save()
         return jsonify(amenity.to_dict()), 201
 
     if request.method == 'DELETE':
