@@ -46,7 +46,7 @@ class DBStorage:
         If not found, None is returned"""
         try:
             return self.__session.query(cls).filter_by(id=id).first()
-        except NoResultFound:
+        except:
             return None
 
     def count(self, cls=None):
