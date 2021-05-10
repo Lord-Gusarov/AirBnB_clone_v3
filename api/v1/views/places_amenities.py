@@ -47,7 +47,6 @@ def manage_single_amenity(place_id, amenity_id):
 
     if request.method == 'DELETE':
         if storage_t == 'db':
-            list_id = [a.id for a in place.amenities]
             if amenity_id in list_id:
                 place.amenities.remove(amenity_id)
                 place.save()
