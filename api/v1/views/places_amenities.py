@@ -18,13 +18,12 @@ def list_places_amenities(place_id):
     place = storage.get('Place', place_id)
     if place is None:
         abort(404)
-    else:
-        list_amenities_dict = [a.to_dict() for a in place.amenities]
-        return jsonify(list_amenities_dict)
+    list_amenities_dict = [a.to_dict() for a in place.amenities]
+    return jsonify(list_amenities_dict)
 
 
 @app_views.route('places/<place_id>/amenities/<amenity_id>',
-                 methods=['DELETE', 'POST', 'PUT'],
+                 methods=['GET', 'DELETE', 'POST', 'PUT'],
                  strict_slashes=False)
 def manage_single_amenity(place_id, amenity_id):
     """
@@ -36,8 +35,6 @@ def manage_single_amenity(place_id, amenity_id):
         abort(404)
     if amenity is None:
         abort(404)
-    if amenity["place_id"] is not place_id:
-        abort(404)
     if request.method == 'POST':
         new_amenity_text = None
         res_dict = None
@@ -46,22 +43,23 @@ def manage_single_amenity(place_id, amenity_id):
             new_amenity_text = res_dict.get('text')
         except:
             abort(400, description='Not a JSON')
-        """amenity = storage.get('Amenity', amenity_id)
-        if amenity is None:
-            abort(404)"""
         new_amenity = Amenity(text=new_amenity_text, place_id=place_id,
                               amenity_id=amenity_id)
         new_amenity.save()
         return jsonify(new_amenity.to_dict()), 201
 
     if request.method == 'DELETE':
-        """place = stoage.get('Place', place_id)
-        if place is None:
-            abort(404)
-        amenity = storage.get('Amenity', amenity_id)
-        if amenity is None:
-            abort(404)"""
-        """else:"""
-        storage.delete(amenity)
-        storage.save()
-        return jsonify({}), 200
+        if storage_t == 'db':
+            list_id = [a.id for a in place.amenities]
+            if amenity_id in list_id:
+                place.amenities.remove(amenity_id)
+                storage.save()
+                return jsonify({}), 200
+            else:
+                abort(404)
+        else:
+            if amenity_id in place.amenity_ids:
+                place.amenity_ids.remove(amenity_id)
+                storage.save()
+            else:
+                abort(404)
