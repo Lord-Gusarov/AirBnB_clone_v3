@@ -31,7 +31,12 @@ def manage_single_amenity(place_id, amenity_id):
     Allows management of an amenity inside a place
     """
     place = storage.get('Place', place_id)
+    amenity = storage.get('Amenity', amenity_id)
     if place is None:
+        abort(404)
+    if amenity is None:
+        abort(404)
+    if amenity["place_id"] is not place_id:
         abort(404)
     if request.method == 'POST':
         new_amenity_text = None
@@ -41,22 +46,22 @@ def manage_single_amenity(place_id, amenity_id):
             new_amenity_text = res_dict.get('text')
         except:
             abort(400, description='Not a JSON')
-        amenity = storage.get('Amenity', amenity_id)
+        """amenity = storage.get('Amenity', amenity_id)
         if amenity is None:
-            abort(404)
+            abort(404)"""
         new_amenity = Amenity(text=new_amenity_text, place_id=place_id,
                               amenity_id=amenity_id)
         new_amenity.save()
         return jsonify(new_amenity.to_dict()), 201
 
     if request.method == 'DELETE':
-        place = stoage.get('Place', place_id)
+        """place = stoage.get('Place', place_id)
         if place is None:
             abort(404)
         amenity = storage.get('Amenity', amenity_id)
         if amenity is None:
-            abort(404)
-        else:
-            storage.delete(amenity)
-            storage.save()
-            return jsonify({}), 200
+            abort(404)"""
+        """else:"""
+        storage.delete(amenity)
+        storage.save()
+        return jsonify({}), 200
