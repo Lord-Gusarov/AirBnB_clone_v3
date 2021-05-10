@@ -32,10 +32,12 @@ class FileStorage:
         Returns:
             object | None
         """
+        key = None
         if cls in classes:
-            key = classes[cls] + '.' + id
-            return self.__objects.get('key')
-        return None
+            key = cls + '.' + id
+        elif cls in classes.values():
+            key = cls.__class__.__name__ + '.' + id
+        return self.__objects.get(key)
 
     def count(self, cls=None):
         """Counts the objects of a certain class. If the class is not specified
