@@ -23,7 +23,7 @@ def list_places_amenities(place_id):
 
 
 @app_views.route('places/<place_id>/amenities/<amenity_id>',
-                 methods=['GET', 'DELETE', 'POST', 'PUT'],
+                 methods=['DELETE', 'POST', 'PUT'],
                  strict_slashes=False)
 def manage_single_amenity(place_id, amenity_id):
     """
@@ -49,13 +49,14 @@ def manage_single_amenity(place_id, amenity_id):
             list_id = [a.id for a in place.amenities]
             if amenity_id in list_id:
                 place.amenities.remove(amenity_id)
-                storage.save()
+                place.save()
                 return jsonify({}), 200
             else:
                 abort(404)
         else:
             if amenity_id in place.amenity_ids:
                 place.amenity_ids.remove(amenity_id)
-                storage.save()
+                place.save()
+                return jsonify({}), 200
             else:
                 abort(404)
