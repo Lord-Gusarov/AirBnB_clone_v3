@@ -26,7 +26,7 @@ def list_all_users():
             abort(400, description='Missing email')
         if new_pass is None:
             abort(400, description='Missing password')
-        new_user = User(**res_dict)
+        new_user = User(email=new_email, password=new_pass)
         new_user.save()
         return jsonify(new_user.to_dict()), 201
     users = storage.all('User')
